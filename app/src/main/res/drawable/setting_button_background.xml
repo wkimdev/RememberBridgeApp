@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+android:padding="10dp"
+android:shape="rectangle" >
+
+<!--solid: 이 요소는 도형의 단색 채우기를 정의-->
+<solid android:color="#E0E0E0" />
+<!--모서리: 도형의 모서리를 둥글게 만듭니다.-->
+<corners
+    android:bottomLeftRadius="12dp"
+    android:bottomRightRadius="12dp"
+    android:topLeftRadius="12dp"
+    android:topRightRadius="12dp" />
+<!--경계선을 정의-->
+<stroke
+    android:width="0dp"
+    android:color="#064274" />
+</shape>

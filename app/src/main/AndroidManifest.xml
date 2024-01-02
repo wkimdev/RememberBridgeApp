@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- HTTP 통신을 하기 위한 인터넷 접근 권한 허용 -->
+    <!-- 네트워크 소켓을 열도록 허용해주는 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 네트워크 관련 정보에 접근할 수 있도록 허용해주는 권한 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- camera, gallery 에 접근하기 위한 권한 설정 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- Allows an application to modify global audio settings. -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/remember_logo2"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:name=".configure.GlobalApplication"
+        android:theme="@style/Theme.RemeberBridge"
+        tools:targetApi="31">
+        <activity
+            android:name=".ImageViewTestActivity"
+            android:exported="true" />
+        <activity
+            android:name=".member.MemberRegisterActivity"
+            android:exported="true" />
+        <activity
+            android:name=".EmailLoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TestActivity"
+            android:exported="true" />
+        <activity
+            android:name=".member.LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".mypage.SettingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".EditMyPageInfoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".mypage.MyPageActivity"
+            android:exported="true" />
+        <activity
+            android:name=".EditDogActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AddBoardActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="true" />
+        <activity
+            android:name=".BoardReadActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AddDogActivity"
+            android:exported="true" />
+        <activity
+            android:name=".UploadPhotoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <!--
+android:exported 속성은 다른 애플리케이션의 구성요소에서 실행할 수 있는 구성요소
+        (activity, sevice, broadcast receiver 등)인지를 설정하는값
+        -->
+        <!-- menu 4개 프레그먼트가 추가되는 화면 -->
+        <activity
+            android:name=".LoadingActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

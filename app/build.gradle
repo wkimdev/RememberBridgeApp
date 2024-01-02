@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.example.remeberbridge'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.example.remeberbridge"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.10.0'
+
+    //material 3 추가
+    implementation "androidx.compose.ui:ui-tooling:1.2.0"
+    implementation "androidx.compose.material3:material3:1.0.0-alpha13"
+
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    //이미지 캐러셀 적용을 위한 의존성 설정
+    // Circle Indicator (To fix the xml preview "Missing classes" error)
+    implementation 'me.relex:circleindicator:2.1.6'
+    implementation 'org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0'
+    //indicator custom
+    implementation 'me.relex:circleindicator:2.1.6'
+
+    //HTTP통신을 하기 위한 Retrofit2 라이브러리 추가
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    // JSON을 편리하게 사용하기 위한 라이브러리
+    implementation 'com.google.code.gson:gson:2.8.2'
+    // JSON 타입의 응답결과를 객체로 매핑(변환)해주는 Converter
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+
+    //구글 로그인 인증을 위한 종속 항목 추가
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    //카카오 로그인을 위한 SDK 추가
+    implementation "com.kakao.sdk:v2-all:2.18.0" // 전체 모듈 설치, 2.11.0 버전부터 지원
+    implementation "com.kakao.sdk:v2-user:2.18.0" // 카카오 로그인
+
+    //네이버 로그인을 위한 SDK 추가
+    implementation 'com.navercorp.nid:oauth:5.9.0' // jdk 11
+
+    //implementation 'com.navercorp.nid:oauth-jdk8:5.9.0' // jdk 8
+
+    //이미지를 동그랗게 보이도록 처리해주는 라이브러리
+    implementation 'de.hdodenhof:circleimageview:3.1.0' //Circle ImageView
+
+
+
+}

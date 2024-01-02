@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF3E0">
+
+
+    <!--[프로필 정보] Start-->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mypage_card_profile"
+        style="?attr/materialCardViewElevatedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="8dp"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="#FFE0B2"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/mypage_img_profile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/som_2"
+                app:civ_border_color="#000000"
+                app:civ_border_overlay="false"
+                app:civ_border_width="0dp" />
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="profile"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/mypage_txt_myEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/icon_arrow_forward"
+                android:clickable="true"
+                android:scaleType="fitCenter" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.google.android.material.card.MaterialCardView>
+    <!--[프로필 정보] End -->
+
+
+    <!--[내 강아지정보 리스트] Start-->
+    <!--app:cardBackgroundColor="#FFCC80"-->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mypage_card_dogs"
+        style="?attr/materialCardViewElevatedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="#FFE0B2"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mypage_card_profile">
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="나의 반려견🐾"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:paddingLeft="12dp"
+                android:layout_margin="8dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mypage_rc_doglist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:orientation="horizontal"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/mydog_info"
+                android:layout_margin="8dp"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.google.android.material.card.MaterialCardView>
+    <!--[내 강아지정보 리스트] End -->
+
+
+
+    <!-- 서비스 설정 시작 -->
+    <!-- 서비스 설정 끝 -->
+
+    <!--        android:background="@drawable/setting_button_background"-->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/mypage_button_setting"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:background="#D7CCC8"
+        android:drawableEnd="@drawable/icon_arrow_forward"
+        android:elevation="10dp"
+        android:onClick="onButtonClick"
+        android:paddingLeft="30dp"
+        android:text="서비스 설정"
+        android:textAlignment="viewStart"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mypage_card_dogs" />
+
+    <TextView
+        android:id="@+id/txt_copyright"
+        android:layout_width="match_parent"
+        android:layout_height="165dp"
+        android:background="#D7CCC8"
+        android:gravity="center"
+        android:text="Copyright © 2023 RememberBridge. \n All rights reserved. \n대표 : 김위 | 사업자등록번호 : 430-36-01418 \n 개발자 연락처: wkimdev@gmail.com"
+        android:textAlignment="center"
+        android:textColor="#656565"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+    <!--클릭했을때 전체가 활성화 되도록 하고 싶다. -->
+
+<!--    <Button-->
+<!--        android:id="@+id/button2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:text="서비스 설정"-->
+<!--        android:textSize="18sp"-->
+<!--        tools:layout_editor_absoluteX="162dp"-->
+<!--        tools:layout_editor_absoluteY="79dp" />-->
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

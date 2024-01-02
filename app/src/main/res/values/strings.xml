@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">리멤버브릿지</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_web_client_id">1067571952139-vjmrf1iubiv3lcej13d3bv062vvpdomf.apps.googleusercontent.com</string>
+    <string name="KAKAO_NATIVE_APP_KEY">cae2f0885ce3330ea0a6bcd3889730c6</string>
+
+    <string name="NAVER_CLIENT_ID">1VFbWBPsbswESwk5Bsb2</string>
+    <string name="NAVER_CLIENT_SECRET">e4mdLKSKnb</string>
+    <string name="reset_pwd"><u>비밀번호를 잊었나요?</u></string>
+    <string name="leave_memeber"><u>회원탈퇴</u></string>
+    <string name="fab_description">Add new item</string>
+
+</resources>
