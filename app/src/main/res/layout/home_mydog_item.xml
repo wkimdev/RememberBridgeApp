@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:backgroundTint="#ff5722"
+                    android:backgroundTint="@color/theme_orange"
                     android:text="추억공간 보러가기"
                     android:textStyle="bold"
                     app:cornerRadius="20dp" />

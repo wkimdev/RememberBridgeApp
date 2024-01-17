@@ -23,6 +23,7 @@ import com.example.remeberbridge.model.ResponseCommonData;
 import com.example.remeberbridge.model.ResponseWrapper;
 import com.example.remeberbridge.model.auth.RequestLoginData;
 import com.example.remeberbridge.model.auth.UserLoginInfoResult;
+import com.example.remeberbridge.model.auth.UserSpaceInfoResult;
 import com.example.remeberbridge.service.MemberService;
 import com.example.remeberbridge.utils.AlertDialogHelper;
 import com.example.remeberbridge.utils.PreferenceManager;
@@ -531,9 +532,10 @@ public class LoginActivity extends AppCompatActivity {
                         //로그인이 정상이라면, userId값을 받아와 쉐어드에 담는다.
                         UserLoginInfoResult userLoginInfoResult = responseCommonData.getUserInfo();
                         logError(TAG, "회원가입한 사용자 ID: " + userLoginInfoResult.getUserId());
-                        PreferenceManager.setInt(getApplicationContext(), "userId", userLoginInfoResult.getUserId());
+                        PreferenceManager.setInt(getApplicationContext(), "user_id", userLoginInfoResult.getUserId());
 
-                        logError(TAG, "쉐어드에 저장된 userId 확인: " + PreferenceManager.getInt(getApplicationContext(), "userId"));
+
+                        logError(TAG, "쉐어드에 저장된 userId 확인: " + PreferenceManager.getInt(getApplicationContext(), "user_id"));
                         logError(TAG, "쉐어드에 저장된 sns_type 확인: " + PreferenceManager.getString(getApplicationContext(), "user_sns_type"));
                         logError(TAG, "쉐어드에 저장된 user email 확인: " + PreferenceManager.getString(getApplicationContext(), "user_email"));
 

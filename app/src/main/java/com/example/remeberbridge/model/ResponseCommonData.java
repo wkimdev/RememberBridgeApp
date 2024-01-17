@@ -2,6 +2,7 @@ package com.example.remeberbridge.model;
 
 import com.example.remeberbridge.model.auth.UserLoginInfoResult;
 import com.example.remeberbridge.model.auth.UserSpaceInfoResult;
+import com.example.remeberbridge.model.diary.DiaryInfoResult;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -29,6 +30,11 @@ public class ResponseCommonData {
 
     @SerializedName("space_info")
     private ArrayList<UserSpaceInfoResult> spaceInfo;
+
+    @SerializedName("diary_info")
+    private ArrayList<DiaryInfoResult> diaryInfo;
+
+
 
 
     public String getCode() {
@@ -78,5 +84,13 @@ public class ResponseCommonData {
 
     public void setSpaceInfo(ArrayList<UserSpaceInfoResult> spaceInfo) {
         this.spaceInfo = spaceInfo;
+    }
+
+    public ArrayList<DiaryInfoResult> getDiaryInfo() {
+        return diaryInfo;
+    }
+
+    public void setDiaryInfo(ArrayList<DiaryInfoResult> diaryInfo) {
+        this.diaryInfo = diaryInfo;
     }
 }

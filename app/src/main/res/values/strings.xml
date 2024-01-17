@@ -11,4 +11,53 @@
     <string name="leave_memeber"><u>회원탈퇴</u></string>
     <string name="fab_description">Add new item</string>
 
+    <!-- Ted Permission -->
+    <string name="permission_1">카메라 및 앨범접근 권한이 필요합니다.</string>
+    <string name="permission_2">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>
+
+
+
+<string-array name="dog_variety">
+    <item>말티즈</item>
+    <item>보더콜리</item>
+    <item>푸들</item>
+    <item>포메라니안</item>
+    <item>스피츠</item>
+    <item>장모 치와와</item>
+    <item>단모 치와와</item>
+    <item>시츄</item>
+    <item>요크셔테리어</item>
+    <item>시바이누</item>
+    <item>골든 리트리버</item>
+    <item>래브라도 리트리버</item>
+    <item>진돗개</item>
+    <item>사모예드</item>
+    <item>저먼 셰퍼드</item>
+    <item>비숑프리제</item>
+    <item>불독</item>
+    <item>프렌치 불독</item>
+    <item>웰시코기</item>
+    <item>슈나우저</item>
+    <item>퍼그</item>
+    <item>베들링턴 테리어</item>
+    <item>도베르만</item>
+    <item>페키니즈</item>
+    <item>시베리안 허스키</item>
+    <item>코커 스파니엘</item>
+    <item>비글</item>
+    <item>닥스훈트</item>
+</string-array>
+
+
+
+    <string name="title_activity_main2">MainActivity2</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
 </resources>

@@ -17,21 +17,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.remeberbridge.BoardFrag;
+import com.example.remeberbridge.board.BoardFrag;
 import com.example.remeberbridge.R;
-import com.example.remeberbridge.RememberFrag;
+import com.example.remeberbridge.diary.RememberFrag;
 import com.example.remeberbridge.configure.RetrofitClientInstance;
-import com.example.remeberbridge.member.LoginActivity;
 import com.example.remeberbridge.model.ResponseCommonData;
 import com.example.remeberbridge.model.ResponseWrapper;
-import com.example.remeberbridge.model.auth.UserLoginInfoResult;
 import com.example.remeberbridge.model.auth.UserSpaceInfoResult;
 import com.example.remeberbridge.model.dog.Dog;
-import com.example.remeberbridge.mypage.MyDogItemDecoration;
 import com.example.remeberbridge.service.MemberService;
 import com.example.remeberbridge.utils.AlertDialogHelper;
-import com.example.remeberbridge.utils.FragmentUtils;
-import com.example.remeberbridge.utils.Learned;
 import com.example.remeberbridge.utils.NavigationUtils;
 import com.example.remeberbridge.utils.PreferenceManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,8 +34,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -76,9 +69,10 @@ public class HomeFrag extends Fragment {
     // 레트로핏으로 사용자의 추억공간 데이터를 호출함
     private MemberService service = RetrofitClientInstance.getRetrofitInstance().create(MemberService.class);
 
-    @Override
+
     //프래그먼트에 맞는 UI를 그리기 위해 View를 반환하는 콜백메소드
     //프래그먼트의 레이아웃 루트이기 때문에 UI를 제공하지 않을 경우, null을 반환
+    @Override
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -187,7 +181,11 @@ public class HomeFrag extends Fragment {
                     if ("2000".equals(code)) { //인증성공
                         //추억공간에 값이 있는 경우 리스트만드는 처리
                         if (responseCommonData.getSpaceInfo() != null
-                                || responseCommonData.getSpaceInfo().size() > 0) {
+                                || responseCommonData.getSpaceInfo().size() > 0) { //[space_info가 있을 경우 start]
+
+                            //사용자가 반려견 정보를 등록했는지 알려주는 구분값
+                            PreferenceManager.setBoolean(getContext(), "isDogValue", true);
+
 
                             ArrayList<UserSpaceInfoResult> results = responseCommonData.getSpaceInfo();
 
@@ -216,7 +214,8 @@ public class HomeFrag extends Fragment {
                                 dogArrayList.add(dog);
                             }*/
 
-                        }
+                        } //[space_info가 있을 경우 end]
+
 
                         homeMyDogListAdapter = new HomeMyDogListAdapter(dogArrayList, getContext());
                         home_rc_mydoglist.setLayoutManager(new LinearLayoutManager(getContext()));

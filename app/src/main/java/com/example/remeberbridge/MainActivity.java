@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.remeberbridge.board.BoardFrag;
+import com.example.remeberbridge.diary.RememberFrag;
 import com.example.remeberbridge.home.HomeFrag;
 import com.example.remeberbridge.mypage.MyPageFrag;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTransaction ft;
     private HomeFrag homeFrag; //메인화면
     private RememberFrag rememberFrag; //추억공간
+
     private BoardFrag boardFrag; //게시판
     private MyPageFrag mypageFrag; //마이페이지
 
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         //프래그먼트 객체 생성
         homeFrag = new HomeFrag();
+        // TODO: 2024/01/09 임시 테스트
         rememberFrag = new RememberFrag();
         boardFrag = new BoardFrag();
         mypageFrag = new MyPageFrag();

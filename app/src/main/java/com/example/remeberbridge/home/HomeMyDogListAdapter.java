@@ -52,10 +52,10 @@ public class HomeMyDogListAdapter extends RecyclerView.Adapter<HomeMyDogListAdap
     public DogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // 뷰 타입에 따라 다른 레이아웃을 인플레이트
         View view;
-        Log.e(TAG, "onCreateViewHolder: VIEW_TYPE 확인 " + viewType);
+        //Log.e(TAG, "onCreateViewHolder: VIEW_TYPE 확인 " + viewType);
 
         if (viewType == VIEW_TYPE_EMPTY) {
-            Log.e(TAG, "view 타입 빈값이다!!!!!");
+            //Log.e(TAG, "view 타입 빈값이다!!!!!");
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_mydog_no_item, parent, false);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_mydog_item, parent, false);
@@ -103,7 +103,7 @@ public class HomeMyDogListAdapter extends RecyclerView.Adapter<HomeMyDogListAdap
     /** 3-3) 생성자를 통해 전달받은 전체 데이터 갯수 리턴 */
     @Override
     public int getItemCount() {
-        Log.e(TAG, "getItemCount: !!!! 값 화긴 : " + (dogList != null && !dogList.isEmpty()));
+        //Log.e(TAG, "getItemCount: !!!! 값 화긴 : " + (dogList != null && !dogList.isEmpty()));
         ///true가 나오면 안돼
         //return ( dogList != null || dogList.size() > 0 ) ? dogList.size() : 1;
         // Return the actual size of the list or 0 if the list is null or empty

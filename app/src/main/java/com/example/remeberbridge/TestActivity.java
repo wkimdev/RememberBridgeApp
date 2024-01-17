@@ -12,6 +12,15 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+/**
+ * TestActivity.java
+ * @desc : material design text field input test activity
+ *
+ * @author : wkimdev
+ * @created : 1/15/24
+ * @version 1.0
+ * @modifyed
+ **/
 public class TestActivity extends AppCompatActivity {
 
     private TextInputLayout testTextInputCustom;

@@ -30,6 +30,7 @@ public class UserSpaceInfoResult {
     @SerializedName("create_at")
     private String createAt;
 
+
     public int getSpaceId() {
         return spaceId;
     }
