@@ -74,12 +74,9 @@ dependencies {
     //이미지를 동그랗게 보이도록 처리해주는 라이브러리
     implementation 'de.hdodenhof:circleimageview:3.1.0' //Circle ImageView
 
-    //이미지 CROP을 위한 라이브러리 추가
-    implementation 'com.vanniktech:android-image-cropper:4.5.0'
+    //크롭 라이브러리
+    implementation 'com.github.yalantis:ucrop:2.2.8'
 
-    //ted permission - 권한 처리를 쉽게 할 수 있도록 도와주는 라이브러리
-    // Normal
-    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
 
 
 }

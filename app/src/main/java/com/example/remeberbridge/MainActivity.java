@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.remeberbridge.board.BoardFrag;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.e(TAG, "onCreate: CALL!!!");
+
         //뷰바인딩
         bottomNavi = findViewById(R.id.main_bottom_menu);
 
@@ -60,13 +63,21 @@ public class MainActivity extends AppCompatActivity {
         boardFrag = new BoardFrag();
         mypageFrag = new MyPageFrag();
 
-        //첫 프래그먼트 화면 지정
-        setFrag(0);
 
-
-
+        //여기서
         //Intent로 프래그먼트 이동 지정
-        Intent intent = getIntent();
+        Intent i = getIntent();
+        int pageValue = i.getIntExtra("fromNewAddDog", 0);
+        if (pageValue > 0 ) {
+            //지정된 프래그먼트 화면으로 이동
+            setFrag(1);
+        } else {
+            //첫 프래그먼트 화면 지정
+            setFrag(0);
+        }
+
+
+
         //회의예약 추가 후 화면 이동
         /*if (intent.getBooleanExtra("fromAddReservation", false)) {
             //예약화면 프래그먼트 화면 지정
@@ -81,6 +92,14 @@ public class MainActivity extends AppCompatActivity {
         SettingListener();
 
     }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e(TAG, "onStart: CALL!!!");
+    }
+
 
     //하단메뉴바 클릭 리스너 등록
     private void SettingListener() {

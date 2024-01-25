@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,7 +52,6 @@ public class TimeLineFragment extends Fragment {
 
     private RecyclerView diary_rc;
     private ProgressBar progress_bar;
-
     private TimeLineListAdapter timeLineListAdapter;
 
     private int page = 1; //최초 페이지 호출
@@ -68,6 +68,7 @@ public class TimeLineFragment extends Fragment {
     private ArrayList<DiaryInfoResult> diaryInfoResultArrayList;
 
     private TextView txt_no_timeline;
+    private LinearLayoutCompat ll_title;
 
     @Nullable
     @Override
@@ -83,12 +84,15 @@ public class TimeLineFragment extends Fragment {
         Log.e(TAG, "onViewCreated: CALL...!!!");
 
 
+        ll_title = view.findViewById(R.id.ll_title);
         progress_bar = view.findViewById(R.id.progress_bar);
         nestedScrollView = view.findViewById(R.id.timeline_scroll_view); //스크롤뷰
         txt_no_timeline = view.findViewById(R.id.timeline_txt_no_timeline); //데이터가 없을때 노출함
 
+
         //@TODO: 2024/01/11 user_id가 있는지 예외처리 필요
         ////////////// NEW 스크롤 처리 //////////////
+
 
         page = 1; //호출페이지 초기화
 
@@ -109,7 +113,9 @@ public class TimeLineFragment extends Fragment {
 
         //페이징과 함께 아이템을 업데이하도록 요청하는 메소드
         //최초화면 진입시, 1페이지 15개 아이템을 요청한다
-        callItemWithPaging();
+
+        // TODO: 1/25/24 임시 주석처리
+        //callItemWithPaging();
 
         // 리사이클러뷰 어댑터 초기화 및 리사이클러뷰에 어댑터 설정
         timeLineListAdapter = new TimeLineListAdapter(diaryInfoResultArrayList, getContext());
@@ -181,7 +187,8 @@ public class TimeLineFragment extends Fragment {
         diary_rc.setAdapter(timeLineListAdapter);
 
         //페이징과 함께 아이템을 업데이하도록 요청하는 메소드
-        callItemWithPaging();
+        // TODO: 1/25/24 임시주석처리
+        //callItemWithPaging();
 
         //스크롤뷰 이벤트를 받아 다음페이징을 요청한다
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener()

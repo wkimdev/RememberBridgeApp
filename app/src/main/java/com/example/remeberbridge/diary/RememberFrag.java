@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.remeberbridge.R;
-import com.example.remeberbridge.utils.PreferenceManager;
 import com.google.android.material.tabs.TabLayout;
 
 /**
@@ -32,6 +31,7 @@ public class RememberFrag extends Fragment {
 
     private String TAG = this.getClass().getSimpleName();
     private static boolean isDogValueExist;
+    private static boolean isTimeLineValueExist;
 
     //프래그먼트에 맞는 UI를 그리기 위해 View를 반환하는 콜백메소드
     //프래그먼트의 레이아웃 루트이기 때문에 UI를 제공하지 않을 경우, null을 반환
@@ -55,9 +55,12 @@ public class RememberFrag extends Fragment {
         tabLayout.setupWithViewPager(pager); //텝레이아웃과 뷰페이저를 연결
         pager.setAdapter(new PageAdapter(getActivity().getSupportFragmentManager(),getContext())); //뷰페이저 어뎁터 설정 연결
 
-        // TODO: 1/15/24 - 테스트를 위해 하드코딩 설정
+        //TODO: 1/15/24
+        // - 테스트를 위해 하드코딩 설정
+        // - api를 호출해서, 해당값이 존재하는지 판단해야함.
         //isDogValueExist = PreferenceManager.getBoolean(getContext(), "isDogValueExist");
         isDogValueExist = false;
+        isTimeLineValueExist = true;
     }
 
 
@@ -73,10 +76,12 @@ public class RememberFrag extends Fragment {
         public Fragment getItem(int position) {
             if (position == 0) { //프래그먼트 사용 포지션 설정 0 이 첫탭
                 //return new TimeLineFragment(); //타임라인
-                if (isDogValueExist){
+                //if (isDogValueExist){
+                if (isTimeLineValueExist) {
                     return new TimeLineFragment2(); //타임라인
                 } else {
-                    return new NoTimeLineFragment(); //타임라인이 없음, 반려견데이터 생성
+                    //return new NoDogFragment(); //반려견 데이터가 없음
+                    return new NoTimeLineFragment(); //타임라인 데이터가 없음.
                 }
 
             } else {

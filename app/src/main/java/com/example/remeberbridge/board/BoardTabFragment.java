@@ -20,12 +20,12 @@ import com.example.remeberbridge.R;
  * @version 1.0
  * @modifyed
  **/
-public class BoardTabFragment2 extends Fragment {
+public class BoardTabFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.board_tab2_fragment, container, false);
+        return inflater.inflate(R.layout.board_tab1_fragment, container, false);
     }
 
     @Override

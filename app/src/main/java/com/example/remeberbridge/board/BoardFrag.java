@@ -59,9 +59,9 @@ public class BoardFrag extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) { //프래그먼트 사용 포지션 설정 0 이 첫탭
-                return new BoardTabFragment1(); //타임라인
+                return new BoardTabFragment(); //타임라인
             } else {
-                return new BoardTabFragment2();  //AI스토리
+                return new ChatTabFragment();  //AI스토리
             }
         }
 

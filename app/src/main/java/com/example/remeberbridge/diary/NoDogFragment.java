@@ -1,7 +1,7 @@
 package com.example.remeberbridge.diary;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,39 +11,42 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.remeberbridge.mypage.AddDogActivity;
 import com.example.remeberbridge.R;
 
 /**
  * NoTimeLineFragment.java
- * @desc : 사용자가 반려견은 등록했으나, 해당 반려견에 대해 추억은 생성하지 않는경우(타임라인이 없는경우) 화면
+ * @desc : 등록한 반려견이 없을때 프레그먼트 화면
  *
  * @author : wkimdev
- * @created : 1/23/24
+ * @created : 1/15/24
  * @version 1.0
  * @modifyed
  **/
-public class NoTimeLineFragment extends Fragment {
+public class NoDogFragment extends Fragment {
 
-    private String TAG = this.getClass().getSimpleName();
+    private Button timelint_add_dog_Btn;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.fragment_notimeline, container, false);
+        return inflater.inflate(R.layout.diary_tab1_no_dog_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //View 바인딩
-        Button noTimeline_btn_add = view.findViewById(R.id.noTimeline_btn_add);
+        timelint_add_dog_Btn = view.findViewById(R.id.timelint_add_dog_Btn);
 
-        noTimeline_btn_add.setOnClickListener(new View.OnClickListener() {
+
+        timelint_add_dog_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e(TAG, "onClick: 타임라인생성 버튼!!!");
+                //반려견 등록 액티비티 이동
+                Intent intent = new Intent(getContext(), AddDogActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -2,8 +2,18 @@ package com.example.remeberbridge.model.diary;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.File;
+
 public class RequestAddNewDog {
 
+    public RequestAddNewDog(String userEmail, String dogName, String dogBirth, int dogBreed, String dogSex, File dogProfImg) {
+        this.userEmail = userEmail;
+        this.dogName = dogName;
+        this.dogBirth = dogBirth;
+        this.dogBreed = dogBreed;
+        this.dogSex = dogSex;
+        this.dogProfImg = dogProfImg;
+    }
 
     @SerializedName("user_email")
     String userEmail;
@@ -24,6 +34,6 @@ public class RequestAddNewDog {
     String dogSex;
 
     @SerializedName("dog_prof_img")
-    String dogProfImg;
+    File dogProfImg;
 
 }

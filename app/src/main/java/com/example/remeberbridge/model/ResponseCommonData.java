@@ -34,8 +34,11 @@ public class ResponseCommonData {
     @SerializedName("diary_info")
     private ArrayList<DiaryInfoResult> diaryInfo;
 
+    @SerializedName("space_id")
+    private int spaceid;
 
-
+    @SerializedName("dog_id")
+    private int dogId;
 
     public String getCode() {
         return code;
@@ -92,5 +95,21 @@ public class ResponseCommonData {
 
     public void setDiaryInfo(ArrayList<DiaryInfoResult> diaryInfo) {
         this.diaryInfo = diaryInfo;
+    }
+
+    public int getSpaceid() {
+        return spaceid;
+    }
+
+    public void setSpaceid(int spaceid) {
+        this.spaceid = spaceid;
+    }
+
+    public int getDogId() {
+        return dogId;
+    }
+
+    public void setDogId(int dogId) {
+        this.dogId = dogId;
     }
 }
