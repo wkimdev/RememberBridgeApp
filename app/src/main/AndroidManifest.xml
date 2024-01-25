@@ -5,21 +5,16 @@
     <!-- 네트워크 소켓을 열도록 허용해주는 권한 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 네트워크 관련 정보에 접근할 수 있도록 허용해주는 권한 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- camera, gallery 에 접근하기 위한 권한 설정 -->
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- Allows an application to modify global audio settings. -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-
-
-
 
     <application
         android:name=".configure.GlobalApplication"
@@ -33,10 +28,13 @@
         tools:targetApi="31">
 
         <activity
+            android:name=".diary.UploadTimelinePhotoActivity"
+            android:exported="true" />
+
+        <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--
          파일 공유를 하기 위해선, file:// 이 아닌, content://URI 로 형식으로 바꿔줘야 한다.
             그리고 권한을 부여해주기 위해 fileprovider 사용하기 위한 선언문을 사용한다.
@@ -85,9 +83,6 @@
             android:exported="true" />
         <activity
             android:name=".EditDogActivity"
-            android:exported="true" />
-        <activity
-            android:name=".AddBoardActivity"
             android:exported="true" />
         <activity
             android:name=".ChatActivity"

@@ -40,6 +40,11 @@ public class ResponseCommonData {
     @SerializedName("dog_id")
     private int dogId;
 
+    @SerializedName("diary_id")
+    private int diaryId;
+
+
+
     public String getCode() {
         return code;
     }
@@ -111,5 +116,9 @@ public class ResponseCommonData {
 
     public void setDogId(int dogId) {
         this.dogId = dogId;
+    }
+
+    public int getDiaryId() {
+        return diaryId;
     }
 }

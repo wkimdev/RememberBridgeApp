@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".diary.UploadTimelinePhotoActivity">
+
+
+    <!--다중 이미지 등록-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_upload_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:orientation="horizontal"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--대표이미지 노출-->
+    <ImageView
+        android:id="@+id/upload_iv_imageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/som_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rc_upload_images" />
+
+    <!--타이틀(내용) 작성-->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/upload_txtinput_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="12dp"
+        android:hint="타이틀"
+        app:endIconMode="clear_text"
+        app:helperText="Required*"
+        app:helperTextTextColor="@color/purple_500"
+        app:startIconDrawable="@drawable/icon_edit_note"
+        app:counterEnabled="true"
+        app:counterMaxLength="120"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@drawable/ic_error"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/upload_iv_imageTitle">
+
+        <!--android:maxLength="21" 여기서 maxLength를 주면 글이 더 작성되지 않는다. -->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/upload_txtinput_edit"
+            android:maxLength="121"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"             />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--업로드버튼-->
+    <Button
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/timeline_btn_imageUpload"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/theme_orange"
+        android:drawableEnd="@drawable/icon_upload"
+        android:drawablePadding="8dp"
+        android:paddingVertical="18dp"
+        android:text="추억 업로드하기"
+        android:enabled="false"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/upload_txtinput_title" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

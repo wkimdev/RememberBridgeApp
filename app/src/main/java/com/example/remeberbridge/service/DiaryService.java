@@ -4,6 +4,7 @@ import com.example.remeberbridge.model.ResponseWrapper;
 import com.example.remeberbridge.model.auth.RequestEmailLogin;
 import com.example.remeberbridge.model.diary.RequestAddNewDog;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -43,6 +44,24 @@ public interface DiaryService {
     @Multipart
     @POST("/api/space/")
     Call<ResponseWrapper> addNewDog(@Part MultipartBody.Part file, @PartMap Map<String, RequestBody> map);
+
+
+    /**
+     * 21. 추억일기 작성
+     단일파일을 전송할때는 아래와 같이 사용한다.
+     안드로이드에서 retrofit으로 이미지나 영상등을 보낼 때에는 Mutipart를 사용
+     백엔드 API 코드를 보니, 키값은 String 하나로 던져주는 거 같다.
+     * @param fieldName Shared name of the multipart form fields to process.
+     * @Part MultipartBody.Part... Images의 맥락에서 이는 uploadImages 메소드가 여러 MultipartBody.Part 객체를 images 인수로 받아들일 수 있음을 의미합니다. 메서드 내
+     */
+    @Multipart
+    @POST("/api/space/diary/")
+    Call<ResponseWrapper> addNewDiary(
+            //@Part List<MultipartBody.Part> file,
+            @PartMap Map<String, RequestBody> map,
+            @Part MultipartBody.Part... files
+    );
+
 
     /*@GET("/api/space/app/diary/{user_id}/{page}/{limit}")
     Call<ResponseWrapper> getDiaryByUserId(@Path("user_id") int userId, @Path("page") int page, @Path("limit") int limit);*/
