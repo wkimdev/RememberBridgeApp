@@ -41,11 +41,12 @@ public class MultiImageAdapter extends RecyclerView.Adapter<MultiImageAdapter.Vi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext() ;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;    // context에서 LayoutInflater 객체를 얻는다.
-        View view = inflater.inflate(R.layout.timeline_item, parent, false) ;	// 리사이클러뷰에 들어갈 아이템뷰의 레이아웃을 inflate.
+        View view = inflater.inflate(R.layout.timeline_item2, parent, false) ;	// 리사이클러뷰에 들어갈 아이템뷰의 레이아웃을 inflate.
         MultiImageAdapter.ViewHolder vh = new MultiImageAdapter.ViewHolder(view) ;
 
         return vh ;
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -56,21 +57,36 @@ public class MultiImageAdapter extends RecyclerView.Adapter<MultiImageAdapter.Vi
                 .into(holder.multi_image);
     }
 
+
     @Override
     public int getItemCount() {
         return mData.size();
     }
 
+
+    /*리사이클러뷰의 이미지 데이터를 초기화 하는 함수*/
+    public void clear() {
+        int size = mData.size();
+        mData.clear();
+        notifyItemRangeRemoved(0, size);
+    }
+
+
+    /*이미지의 x버튼을 클릭햇을때 사진이 없어지도록 하는 함수*/
+
+
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView multi_image;
+        ImageView upload_iv_delete;
 
         ViewHolder(View itemView) {
             super(itemView) ;
 
             // 뷰 객체에 대한 참조.
             multi_image = itemView.findViewById(R.id.multi_image);
+            upload_iv_delete = itemView.findViewById(R.id.upload_iv_delete);
         }
     }
 

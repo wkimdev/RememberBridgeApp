@@ -354,7 +354,7 @@ public class AddDogActivity extends AppCompatActivity {
                         // TODO: 1/22/24 - 타임라인 화면으로 이동
                         //replaceFragment(myViewFragment);
                         Intent intent = new Intent(AddDogActivity.this, MainActivity.class);
-                        intent.putExtra("fromNewAddDog", 1);
+                        intent.putExtra("fromOtherActivity", 1);
                         startActivity(intent);
 
                     } else {

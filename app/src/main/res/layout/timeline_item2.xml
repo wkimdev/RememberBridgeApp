@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="8dp">
+
+    <ImageView
+        android:id="@+id/multi_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="36dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/som_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--todo- delete button이 덮어지지 않음!!!-->
+    <ImageView
+        android:id="@+id/upload_iv_delete"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_above="@id/multi_image"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@+id/multi_image"
+        android:background="@drawable/icon_cancel"
+        app:layout_constraintEnd_toEndOf="@+id/multi_image"
+        app:layout_constraintStart_toStartOf="@+id/multi_image"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

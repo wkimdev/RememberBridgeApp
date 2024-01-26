@@ -185,19 +185,19 @@ public class TimeLineFragment2 extends Fragment {
         //앨범 원한을 이미 허용했을경우 호출되는 구문
         else {
             // 앨범 호출
-            /*Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-            startActivityResultForAlbum.launch(intent);*/
-
             // 다중이미지를 선택하도록 설정하는 코드
             selectMultiImage();
-
         }//end else
     }
 
 
     // 다중이미지를 선택하도록 설정하는 코드
     private void selectMultiImage() {
+
+        //초기화
+        //@fixme - clipdata가 초기화되진 않음
+        uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
+
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -210,6 +210,8 @@ public class TimeLineFragment2 extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        Log.e(TAG, "onActivityResult: 갤러리화면 진입하고 완료된 이후에 호출되는 구문!");
 
         if(data == null){   // 어떤 이미지도 선택하지 않은 경우
             Toast.makeText(getContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
@@ -229,7 +231,7 @@ public class TimeLineFragment2 extends Fragment {
                 Log.e("clipData", String.valueOf(clipData.getItemCount()));
 
                 if(clipData.getItemCount() > 5){   // 선택한 이미지가 6장 이상인 경우
-                    Toast.makeText(getActivity(), "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "사진은 5장까지 선택 가능합니다.", Toast.LENGTH_LONG).show();
                 }
                 else{   // 선택한 이미지가 1장 이상 10장 이하인 경우
                     Log.e(TAG, "multiple choice");
@@ -253,6 +255,7 @@ public class TimeLineFragment2 extends Fragment {
             //타임라인 이미지와 내용을 등록하는 화면에 이미지 URI를 넘긴다.
             Intent intent = new Intent(getActivity(), UploadTimelinePhotoActivity.class);
             intent.putParcelableArrayListExtra("uriList", uriList);
+            Log.e(TAG, "onActivityResult: urlList lenth" + uriList.size() );
             startActivity(intent);
         }
     }

@@ -5,6 +5,9 @@ import androidx.compose.ui.text.TextLayoutInput;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.remeberbridge.MainActivity;
 import com.example.remeberbridge.R;
@@ -79,6 +83,7 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
 
     // 레트로핏으로 사용자의 추억공간 데이터를 호출함
     private DiaryService service = RetrofitClientInstance.getRetrofitInstance().create(DiaryService.class);
+    private boolean isFromGallay;
 
 
     @Override
@@ -93,10 +98,9 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
         //대표이미지
         upload_iv_imageTitle = findViewById(R.id.upload_iv_imageTitle);
 
-
         receivedUriList = getIntent().getParcelableArrayListExtra("uriList");
 
-        Log.e(TAG, "onCreate:"+ receivedUriList.size());
+        Log.e(TAG, "onCreate 전달된 이미지데이터 갯수:"+ receivedUriList.size());
 
         //값이 없다면 오류 리턴
         //이미지가 1개의 경우 1개만 노출, 이미지가 여러개인 경우 여러개를 리사이클러뷰에 노출
@@ -105,6 +109,7 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
             AlertDialogHelper.showAlertDialogOnlyConfrim(UploadTimelinePhotoActivity.this,
                     "오류가 발생했습니다", "다시 시도해 주세요!");
         } else {
+            //어뎁터 초기화
             adapter = new MultiImageAdapter(receivedUriList, getApplicationContext());
             rc_upload_images.setAdapter(adapter);   // 리사이클러뷰에 어댑터 세팅
             rc_upload_images.setLayoutManager(new LinearLayoutManager(this,
@@ -147,6 +152,9 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
         });
 
 
+        /**
+         * 타임라인 내용을 서버에 업로드 하는 코드
+         */
         timeline_btn_imageUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,13 +178,6 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
                                 content
                         );
 
-                Log.e(TAG, "onClick: requestr값 확인 >>>>> "
-                        + spaceId + ", "
-                        + userId + ", "
-                        + selectedDate + ", "
-                        + content
-                );
-
                 // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
                 parts = new ArrayList<>();
                 for (Uri imageUri : receivedUriList) {
@@ -184,9 +185,6 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
                     //File file = new File(imageUri.getPath());
                     File file = new File(FileUtils.getPath(UploadTimelinePhotoActivity.this, imageUri)); // Convert Uri to File
                     RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-                    //MultipartBody.Part part = MultipartBody.Part.createFormData("diary_imgs", file.getName(), requestBody);
-                    //parts.add(part);
-
                     MultipartBody.Part part = MultipartBody.Part.createFormData("diary_imgs", file.getName(), requestBody);
                     parts.add(part);
                 }
@@ -236,6 +234,10 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
                     ResponseCommonData responseCommonData = responseWrapper.getResult();
                     String code = responseCommonData.getCode();
                     String message = responseCommonData.getMessage();
+
+                    //리사이클러뷰 초기화
+                    adapter.clear();
+
                     //타임라인 등록 성공
                     if ("2000".equals(code)) {
 
@@ -245,10 +247,10 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
                         Log.e(TAG, "onResponse: 응답성공!!!" + message);
 
                         // TODO: 1/22/24 - 타임라인 화면으로 이동
-                        //replaceFragment(myViewFragment);
-                        /*Intent intent = new Intent(AddDogActivity.this, MainActivity.class);
-                        intent.putExtra("fromNewAddDog", 1);
-                        startActivity(intent);*/
+                        Intent intent = new Intent(UploadTimelinePhotoActivity.this, MainActivity.class);
+                        intent.putExtra("fromOtherActivity", 1);
+                        startActivity(intent);
+                        finish();
 
                     } else {
                         // 오류 응답 처리
@@ -271,11 +273,10 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseWrapper> call, Throwable t) {
                 Log.e(TAG, "레트로핏 네트워크 오류 또는 요청 실패");
-                AlertDialogHelper.showAlertDialogOnlyConfrim(
-                        UploadTimelinePhotoActivity.this, // 현재 Activity의 Context
+                //이전화면으로 이동시키기
+                showErrorDialog(UploadTimelinePhotoActivity.this, // 현재 Activity의 Context
                         "", // 다이얼로그 제목
-                        "오류가 발생했습니다. \n잠시후 다시 시도해주세요." // 다이얼로그 메시지
-                );
+                        "오류가 발생했습니다. \n잠시후 다시 시도해주세요.");
                 t.printStackTrace();
             }
         });
@@ -283,13 +284,10 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
     }
 
 
-
-
     /**
      * 선택한 첫번째 이미지를 이미지뷰에 바인딩하는 코드
      */
     private void showTitleImage(Uri imageUri) {
-        Log.e(TAG, "3) showImage:  CALL!!!");
         File file = new File(FileUtils.getPath(getApplicationContext(), imageUri));
 
         InputStream inputStream = null;
@@ -300,6 +298,50 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
         }
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
         upload_iv_imageTitle.setImageBitmap(bitmap);
+    }
+
+
+    /*이전 타임라인 페이지로 이동*/
+
+
+    /*이미지 업로드 오류 발생시 팝업창*/
+    public void showErrorDialog(Context context, String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMessage(message);
+
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // "확인" 버튼을 클릭했을 때의 동작
+                dialog.dismiss();
+
+                //리사이클러뷰 초기화
+                adapter.clear();
+                Toast.makeText(context, "타임라인조회 화면으로 이동합니다!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(UploadTimelinePhotoActivity.this, MainActivity.class);
+                intent.putExtra("fromOtherActivity", 1);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    } //end code
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //todo - 제대로 클리어가 안되는데??
+        //의도한건) 갤러리 화면으로 부터 들어오면 이전 리사이클러뷰에 있던 이미지리스트들을 리셋함
+        //화면이 덮어지면 이전 어뎁터이미지 리스트들이 초기화되도록 수정
+        adapter.clear();
+        receivedUriList.clear();
+
+        Log.e(TAG, "onPause: CALL!!! 이미지 데이터갯수 확인 : " + receivedUriList.size());
     }
 
 

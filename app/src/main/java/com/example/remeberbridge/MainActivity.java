@@ -33,7 +33,6 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = this.getClass().getSimpleName();
-
     //하단메뉴바 선언
     private BottomNavigationView bottomNavi;
 
@@ -67,10 +66,11 @@ public class MainActivity extends AppCompatActivity {
         //여기서
         //Intent로 프래그먼트 이동 지정
         Intent i = getIntent();
-        int pageValue = i.getIntExtra("fromNewAddDog", 0);
-        if (pageValue > 0 ) {
+        int pageValue = i.getIntExtra("fromOtherActivity", 0);
+        if (pageValue > 0 ){
             //지정된 프래그먼트 화면으로 이동
-            setFrag(1);
+            setFrag(pageValue);
+            bottomNavi.setSelectedItemId(R.id.action_photos);
         } else {
             //첫 프래그먼트 화면 지정
             setFrag(0);

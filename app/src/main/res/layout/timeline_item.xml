@@ -8,7 +8,8 @@
         android:id="@+id/multi_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/som_2" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/som_2" />
 
     <!--todo- delete button이 덮어지지 않음!!!-->
  <!--   <ImageView
