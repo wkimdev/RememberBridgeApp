@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.remeberbridge.R;
 import com.example.remeberbridge.model.dog.Dog;
 import com.example.remeberbridge.utils.CommonUtils;
@@ -73,11 +74,18 @@ public class HomeMyDogListAdapter extends RecyclerView.Adapter<HomeMyDogListAdap
             //Dog dogList = dogList.get(position);
             // Bind your views here
 
-            //@todo - 이미지 가져오는 법을 모르겠음!
-            //holder.rc_img_profile.setBackground();
+            //@todo - 이미지 가져오는 법을 모르겠음! -> 등록한 반려견의 프로필 이미지를 가져와야함.
             holder.home_rc_txt_name.setText(dogList.get(position).getDogName() + "와의 추억");
-            holder.home_rc_txt_birthday.setText("생일: " + dogList.get(position).getBirthday());
-            holder.home_rc_txt_createdDay.setText("추억생성일: " + dogList.get(position).getCreatedDay());
+            holder.home_rc_txt_createdDay.setText("추억생성일: " + CommonUtils.changeDateFormat(dogList.get(position).getCreatedDay()));
+
+            String profileImgUrI = String.valueOf(R.drawable.home_dog_default_img2);
+            if (dogList.get(position).getProfileImg() != null) {
+                profileImgUrI = dogList.get(position).getProfileImg();
+            }
+
+            Glide.with(context)
+                    .load(profileImgUrI)
+                    .into(holder.home_rc_img_profile);
 
             holder.itemView.setTag(position);
         } else {
@@ -128,7 +136,6 @@ public class HomeMyDogListAdapter extends RecyclerView.Adapter<HomeMyDogListAdap
 
         private ImageView home_rc_img_profile; //솜이이미지
         private TextView home_rc_txt_name; //솜이
-        private TextView home_rc_txt_birthday; //솜이 생일
         private TextView home_rc_txt_createdDay; //솜이 계정 생성일
 
         public DogViewHolder(@NonNull View itemView) {
@@ -136,7 +143,6 @@ public class HomeMyDogListAdapter extends RecyclerView.Adapter<HomeMyDogListAdap
 
             this.home_rc_img_profile = itemView.findViewById(R.id.home_rc_img_profile);
             this.home_rc_txt_name = itemView.findViewById(R.id.home_rc_txt_name);
-            this.home_rc_txt_birthday = itemView.findViewById(R.id.home_rc_txt_birthday);
             this.home_rc_txt_createdDay = itemView.findViewById(R.id.home_rc_txt_createdDay);
         }
     }

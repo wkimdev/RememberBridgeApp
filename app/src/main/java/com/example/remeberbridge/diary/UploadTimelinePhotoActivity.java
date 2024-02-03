@@ -1,11 +1,13 @@
 package com.example.remeberbridge.diary;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.compose.ui.text.TextLayoutInput;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,12 +15,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.remeberbridge.MainActivity;
@@ -32,6 +36,8 @@ import com.example.remeberbridge.mypage.AddDogActivity;
 import com.example.remeberbridge.service.DiaryService;
 import com.example.remeberbridge.utils.AlertDialogHelper;
 import com.example.remeberbridge.utils.PreferenceManager;
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
@@ -63,7 +69,7 @@ import retrofit2.Response;
  * @version 1.0
  * @modifyed
  **/
-public class UploadTimelinePhotoActivity extends AppCompatActivity {
+public class UploadTimelinePhotoActivity extends AppCompatActivity implements ImageSelectionListener {
 
     private Button timeline_btn_imageUpload;
     private TextInputLayout upload_txtinput_title;
@@ -83,7 +89,9 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
 
     // 레트로핏으로 사용자의 추억공간 데이터를 호출함
     private DiaryService service = RetrofitClientInstance.getRetrofitInstance().create(DiaryService.class);
-    private boolean isFromGallay;
+
+    private Sprite fadingCircle; //노출되는 로딩바 애니메이션 선언
+    private ProgressBar progressBar; //로그아웃시 로딩바호출
 
 
     @Override
@@ -98,6 +106,14 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
         //대표이미지
         upload_iv_imageTitle = findViewById(R.id.upload_iv_imageTitle);
 
+        progressBar = findViewById(R.id.spin_kit);; //로그아웃시 로딩바 노출
+        fadingCircle = new FadingCircle(); //노출되는 로딩바 애니메이션 스타일
+
+        //사용법
+        //로딩애니메이션 노출
+        /*progressBar.setVisibility(View.VISIBLE);
+        progressBar.setIndeterminateDrawable(fadingCircle); //진행바 모양을 그리는데 사용되는 드로어블 정의*/
+
         receivedUriList = getIntent().getParcelableArrayListExtra("uriList");
 
         Log.e(TAG, "onCreate 전달된 이미지데이터 갯수:"+ receivedUriList.size());
@@ -110,7 +126,7 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
                     "오류가 발생했습니다", "다시 시도해 주세요!");
         } else {
             //어뎁터 초기화
-            adapter = new MultiImageAdapter(receivedUriList, getApplicationContext());
+            adapter = new MultiImageAdapter(receivedUriList, getApplicationContext(), this);
             rc_upload_images.setAdapter(adapter);   // 리사이클러뷰에 어댑터 세팅
             rc_upload_images.setLayoutManager(new LinearLayoutManager(this,
                     LinearLayoutManager.HORIZONTAL, false));     // 리사이클러뷰 수평 스크롤 적용
@@ -158,6 +174,12 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
         timeline_btn_imageUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //로딩애니메이션 노출
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setIndeterminateDrawable(fadingCircle); //진행바 모양을 그리는데 사용되는 드로어블 정의
+                timeline_btn_imageUpload.setEnabled(false);
+
 
                 int userId = PreferenceManager.getInt(getApplicationContext(), "user_id");
 
@@ -222,8 +244,10 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
     private void uploadTimeLineItem(Map<String, RequestBody> map, MultipartBody.Part... parts) {
 
         service.addNewDiary(map, parts).enqueue(new Callback<ResponseWrapper>() {
+
             @Override
             public void onResponse(Call<ResponseWrapper> call, Response<ResponseWrapper> response) {
+
                 Log.e(TAG, "addNewTimeline: retfrofit onResponse!!! ");
                 //서버 응답성공 (200)
                 if (response.isSuccessful() && response.body() != null) {
@@ -335,14 +359,101 @@ public class UploadTimelinePhotoActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        //todo - 제대로 클리어가 안되는데??
-        //의도한건) 갤러리 화면으로 부터 들어오면 이전 리사이클러뷰에 있던 이미지리스트들을 리셋함
-        //화면이 덮어지면 이전 어뎁터이미지 리스트들이 초기화되도록 수정
         adapter.clear();
         receivedUriList.clear();
-
-        Log.e(TAG, "onPause: CALL!!! 이미지 데이터갯수 확인 : " + receivedUriList.size());
+        //Log.e(TAG, "onPause: CALL!!! 이미지 데이터갯수 확인 : " + receivedUriList.size());
     }
 
+
+    /**
+     * 다중이미지를 갤러리에서 생성
+     * - 리사이클러뷰에서 사용자가 선택한 이미지를 모두 삭제했을 경우 실행되는 메소드
+     */
+    @Override
+    public void onImageSelectionRequested() {
+        selectMultiImage();
+    }
+
+    @Override
+    public void onTimelineItemClick(int diaryId) {
+
+    }
+
+    ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
+
+    // 다중이미지를 선택하도록 설정하는 코드
+    private void selectMultiImage() {
+        //초기화
+        uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
+
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 2222);
+    }
+
+    // 앨범에서 액티비티로 돌아온 후 실행되는 메서드
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.e(TAG, "onActivityResult: 갤러리화면 진입하고 완료된 이후에 호출되는 구문!");
+
+        if(data == null){   // 어떤 이미지도 선택하지 않은 경우
+            Toast.makeText(getApplicationContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
+        }
+        else{   // 이미지를 하나라도 선택한 경우
+            if(data.getClipData() == null){     // 이미지를 하나만 선택한 경우
+                Log.e("single choice: ", String.valueOf(data.getData()));
+                Uri imageUri = data.getData();
+                uriList.add(imageUri);
+
+                Intent intent = new Intent(getApplicationContext(), UploadTimelinePhotoActivity.class);
+                intent.putParcelableArrayListExtra("uriList", uriList);
+                Log.e(TAG, "onActivityResult: urlList lenth" + uriList.size() );
+                startActivity(intent);
+                finish();
+
+            }
+            else{      // 이미지를 여러장 선택한 경우
+                ClipData clipData = data.getClipData();
+                Log.e("clipData", String.valueOf(clipData.getItemCount()));
+
+                if(clipData.getItemCount() > 5){   // 선택한 이미지가 6장 이상인 경우
+                    Toast.makeText(getApplicationContext(), "사진은 5장까지 선택 가능합니다.", Toast.LENGTH_LONG).show();
+                }
+                else{   // 선택한 이미지가 1장 이상 10장 이하인 경우
+                    Log.e(TAG, "multiple choice");
+
+                    for (int i = 0; i < clipData.getItemCount(); i++){
+                        Uri imageUri = clipData.getItemAt(i).getUri();  // 선택한 이미지들의 uri를 가져온다.
+                        try {
+                            uriList.add(imageUri);  //uri를 list에 담는다.
+
+                        } catch (Exception e) {
+                            Log.e(TAG, "File select error", e);
+                        }
+                    }
+
+                    /*adapter = new MultiImageAdapter(uriList, getApplicationContext());
+                    recyclerView.setAdapter(adapter);   // 리사이클러뷰에 어댑터 세팅
+                    recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));     // 리사이클러뷰 수평 스크롤 적용*/
+
+                    Intent intent = new Intent(getApplicationContext(), UploadTimelinePhotoActivity.class);
+                    intent.putParcelableArrayListExtra("uriList", uriList);
+                    Log.e(TAG, "onActivityResult: urlList lenth" + uriList.size() );
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            //타임라인 이미지와 내용을 등록하는 화면에 이미지 URI를 넘긴다.
+            /*Intent intent = new Intent(getActivity(), UploadTimelinePhotoActivity.class);
+            intent.putParcelableArrayListExtra("uriList", uriList);
+            Log.e(TAG, "onActivityResult: urlList lenth" + uriList.size() );
+            startActivity(intent);*/
+        }
+    }
 
 }

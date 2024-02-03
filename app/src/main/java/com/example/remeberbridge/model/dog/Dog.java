@@ -15,15 +15,16 @@ public class Dog {
 
     private String dogName;
 
+    //@todo - delete 미사용값
     private String birthday;
 
     private String createdDay;
 
 
-    public Dog(String profileImg, String dogName, String birthday) {
+    public Dog(String profileImg, String dogName, String createdDay) {
         this.profileImg = profileImg;
         this.dogName = dogName;
-        this.birthday = birthday;
+        this.createdDay = createdDay;
     }
 
     public Dog(String profileImg, String dogName, String birthday, String createdDay) {

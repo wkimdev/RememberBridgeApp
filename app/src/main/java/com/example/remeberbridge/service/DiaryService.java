@@ -31,6 +31,12 @@ import retrofit2.http.Query;
  **/
 public interface DiaryService {
 
+
+    /**
+     * 12. 추억공간생성
+     단일파일을 전송할때는 아래와 같이 사용한다.
+     안드로이드에서 retrofit으로 이미지나 영상등을 보낼 때에는 Mutipart를 사용
+     */
     @GET("/api/space/app/diary/{user_id}/{page}/{limit}")
     Call<ResponseWrapper> getDiaryByUserId(@Path("user_id") int userId
             , @Path("page") int page
@@ -61,6 +67,17 @@ public interface DiaryService {
             @PartMap Map<String, RequestBody> map,
             @Part MultipartBody.Part... files
     );
+
+
+    /**
+     * 23.추억일기 조회
+     * - 한 개의 추억일기를 조회한다.
+     * 사진, 내용, 댓글, 이름, 하트 등에 대한 정보가 조회된다.
+     */
+    @GET("/api/space/diary/info/{diary_id}")
+    Call<ResponseWrapper> getSpaceDiaryInfo(@Path("diary_id") int diaryId);
+
+
 
 
     /*@GET("/api/space/app/diary/{user_id}/{page}/{limit}")

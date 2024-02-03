@@ -10,7 +10,9 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -48,6 +50,35 @@ public class CommonUtils {
 
 
     //날짜 포맷 변환
+    //인풋포맷 : Input date in ISO_OFFSET_DATE_TIME format
+       // "2024-01-01T09:13:25.000Z"
+    //응답포맷 : yyyy-mm-dd
+    public static String changeDateFormat(String str) {
+        // Input date in ISO_OFFSET_DATE_TIME format
+
+        // Parse the input date
+        OffsetDateTime odt = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            odt = OffsetDateTime.parse(str);
+        }
+        // Define the new formatter for the desired format
+        DateTimeFormatter formatter = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        }
+        // Format the date
+        String formattedDate = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            formattedDate = odt.format(formatter);
+        }
+        // Output the formatted date
+        //System.out.println(formattedDate);
+        return formattedDate;
+    }
+
+
+
+    //날짜 포맷 변환
     //요청파람포맷 : yyyy-mm-dd
     //응답포맷 : yyyy.mm.dd
     public static String formatDate(String startDate) {
@@ -56,7 +87,6 @@ public class CommonUtils {
         String sDate = startDate.substring(0, idx);
         return sDate.replace("-", ".");
     }
-
 
     //날짜 포맷 변환
     //요청파람포맷 : yyyy.mm.dd

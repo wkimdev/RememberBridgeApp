@@ -48,7 +48,6 @@ import retrofit2.Response;
  * @version 1.0
  * @modifyed
  **/
-//@Learned("Implement fragment transitions")
 public class HomeFrag extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
@@ -186,15 +185,14 @@ public class HomeFrag extends Fragment {
                             //사용자가 반려견 정보를 등록했는지 알려주는 구분값
                             PreferenceManager.setBoolean(getContext(), "isDogValue", true);
 
-
                             ArrayList<UserSpaceInfoResult> results = responseCommonData.getSpaceInfo();
 
                             for (int i = 0; i < results.size(); i++) {
                                 // Dog 객체 생성
                                 Dog dog = new Dog(results.get(i).getDogProfImg()
                                         ,results.get(i).getDogName()
-                                        ,results.get(i).getCreateAt()
-                                        ,"2023.12.12"); //백엔드에서 값을 받지 않기 때문에 더미데이터로 고정함
+                                        ,results.get(i).getCreateAt());
+
                                 // ArrayList에 추가
                                 dogArrayList.add(dog);
                             }

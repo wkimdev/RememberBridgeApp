@@ -42,10 +42,20 @@ public class DiaryInfoResult {
     @SerializedName("update_at")
     String updateAt;
 
-
     @SerializedName("total_count")
     private int totalCount;
 
+
+    @SerializedName("photo_urls")
+    String photoUrls;
+
+    public String getPhotoUrls() {
+        return photoUrls;
+    }
+
+    public void setPhotoUrls(String photoUrls) {
+        this.photoUrls = photoUrls;
+    }
 
     //스크롤뷰터에서 값을 구분하기 위한 구분값
     private int isLoad = 1;

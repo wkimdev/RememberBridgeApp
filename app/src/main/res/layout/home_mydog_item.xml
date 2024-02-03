@@ -28,7 +28,7 @@
                 android:layout_height="194dp"
                 android:contentDescription="111_contentDescription"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/som_2" />
+                app:srcCompat="@drawable/home_dog_default_img2" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,15 +46,15 @@
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/home_rc_txt_birthday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="생일: yyyy/mm/dd"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+<!--                <TextView-->
+<!--                    android:id="@+id/home_rc_txt_birthday"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:text="생일: yyyy/mm/dd"-->
+<!--                    android:textColor="?android:attr/textColorSecondary"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:textStyle="bold" />-->
 
                 <TextView
                     android:id="@+id/home_rc_txt_createdDay"

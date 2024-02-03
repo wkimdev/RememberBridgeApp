@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -54,7 +55,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * TabFragment1.java
+ * TabFragment2.java
  * @desc : 타임라인 리스트 프레그먼트, 스크롤 적용
  *
  * @author : wkimdev
@@ -64,14 +65,12 @@ import retrofit2.Response;
  **/
 public class TimeLineFragment2 extends Fragment {
 
+    private String TAG = this.getClass().getSimpleName();
     private DiaryService diaryService = RetrofitClientInstance.getRetrofitInstance().create(DiaryService.class);
-    TimeLineListAdapter2 timeLineListAdapter2;
-    RecyclerView recyclerView;
-
+    private TimeLineListAdapter2 timeLineListAdapter2;
+    private RecyclerView recyclerView;
     private int page = 1; //최초 페이지 호출
     private int limit = 15; //페이지 사이즈 지정
-    private String TAG = this.getClass().getSimpleName();
-
     private Button timeline_btn_imageUpload;
 
 
@@ -91,6 +90,23 @@ public class TimeLineFragment2 extends Fragment {
     ArrayList<Uri> uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
 
 
+    //타임라인 게시글 클릭을 위한 인터페이스
+    public interface TimelineInterfacer{
+        void onCardClick(int diaryId);
+    }
+
+    TimelineInterfacer timelineInterfacer;
+
+
+    //Override this function as below to set fragmentInterfacer
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        timelineInterfacer = (TimelineInterfacer) context;
+//    }
+
+    //막혔다!
+
 
     @Nullable
     @Override
@@ -103,10 +119,8 @@ public class TimeLineFragment2 extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         //타임라인 추가 버튼
         timeline_btn_imageUpload = view.findViewById(R.id.timeline_btn_imageUpload);
-
 
         //// >>>>>>>>>> 스크롤뷰 >>>>>>>>>>
 
@@ -117,18 +131,21 @@ public class TimeLineFragment2 extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         // 초기 입력 데이터 준비
-        ArrayList<DiaryInfoResult> newList = new ArrayList<>();
+        //ArrayList<DiaryInfoResult> newList = new ArrayList<>();
 
         //페이징과 함께 아이템을 업데이하도록 요청하는 메소드
-        callItemWithPaging();
+        callItemWithPaging(); //1페이지 15개 호출
 
-        /*for(int i = 0; i < 30; i++){
+        /*
+        테스트코드
+        for(int i = 0; i < 30; i++){
             newList.add(i);
-        }*/
+        }
 
         // 리사이클러뷰 어댑터 초기화 및 리사이클러뷰에 어댑터 설정
         timeLineListAdapter2 = new TimeLineListAdapter2(newList);
         recyclerView.setAdapter(timeLineListAdapter2);
+        */
 
 
         // 리사이클러뷰 스크롤리스너 설정
@@ -142,11 +159,11 @@ public class TimeLineFragment2 extends Fragment {
                 // 현재 리사이클러뷰 아이템 리스트에 로딩 아이템이 있는지 확인, 없다면 내부 코드 실행
                 // numberlist의 사이즈값을 의미함.
                 if (timeLineListAdapter2.isLastItemLoading()) {
-                    Log.e(TAG, "isLastItemLoading: CALL!! ");
+                    //Log.e(TAG, "isLastItemLoading: CALL!! ");
 
                     // 현재 리사이클러뷰의 최하단이여서 더 이상 스크롤 할 수 없을 경우 내부 코드 실행
                     if(!recyclerView.canScrollVertically(1)) {
-                        Log.e(TAG, "onScrollStateChanged: 스크롤 최하단 이다!!!");
+                        //Log.e(TAG, "onScrollStateChanged: 스크롤 최하단 이다!!!");
 
                         // 리사이클러뷰 아이템 리스트에 로딩 아이템 추가
                         // -1를 넣어서 숫자 아이템 로딩이 재시작 됨을 알린다.
@@ -193,9 +210,7 @@ public class TimeLineFragment2 extends Fragment {
 
     // 다중이미지를 선택하도록 설정하는 코드
     private void selectMultiImage() {
-
         //초기화
-        //@fixme - clipdata가 초기화되진 않음
         uriList = new ArrayList<>();     // 이미지의 uri를 담을 ArrayList 객체
 
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -211,8 +226,6 @@ public class TimeLineFragment2 extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.e(TAG, "onActivityResult: 갤러리화면 진입하고 완료된 이후에 호출되는 구문!");
-
         if(data == null){   // 어떤 이미지도 선택하지 않은 경우
             Toast.makeText(getContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
         }
@@ -225,6 +238,12 @@ public class TimeLineFragment2 extends Fragment {
                 /*adapter = new MultiImageAdapter(uriList, getApplicationContext());
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));*/
+
+                Intent intent = new Intent(getActivity(), UploadTimelinePhotoActivity.class);
+                intent.putParcelableArrayListExtra("uriList", uriList);
+                Log.e(TAG, "onActivityResult: urlList lenth" + uriList.size() );
+                startActivity(intent);
+
             }
             else{      // 이미지를 여러장 선택한 경우
                 ClipData clipData = data.getClipData();
@@ -249,14 +268,19 @@ public class TimeLineFragment2 extends Fragment {
                     /*adapter = new MultiImageAdapter(uriList, getApplicationContext());
                     recyclerView.setAdapter(adapter);   // 리사이클러뷰에 어댑터 세팅
                     recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));     // 리사이클러뷰 수평 스크롤 적용*/
+
+                    Intent intent = new Intent(getActivity(), UploadTimelinePhotoActivity.class);
+                    intent.putParcelableArrayListExtra("uriList", uriList);
+                    Log.e(TAG, "onActivityResult: urlList lenth" + uriList.size() );
+                    startActivity(intent);
                 }
             }
 
             //타임라인 이미지와 내용을 등록하는 화면에 이미지 URI를 넘긴다.
-            Intent intent = new Intent(getActivity(), UploadTimelinePhotoActivity.class);
+            /*Intent intent = new Intent(getActivity(), UploadTimelinePhotoActivity.class);
             intent.putParcelableArrayListExtra("uriList", uriList);
             Log.e(TAG, "onActivityResult: urlList lenth" + uriList.size() );
-            startActivity(intent);
+            startActivity(intent);*/
         }
     }
 
@@ -372,7 +396,9 @@ public class TimeLineFragment2 extends Fragment {
 
     private void callItemWithPaging() {
 
+        //@fixme - 하드코딩
         int userId = PreferenceManager.getInt(getContext(), "user_id");
+        userId = 208;
         //Log.e(TAG, "callItemWithPaging: user_id: " +  userId);
         Log.e(TAG, "callItemWithPaging: page 값 확인: " +  page);
 
@@ -389,7 +415,8 @@ public class TimeLineFragment2 extends Fragment {
 
                     if ("2000".equals(code)) { //인증성공
 
-                        generateDataList(responseCommonData.getDiaryInfo());
+                        generateDataList(responseCommonData.getDiaryInfo(),
+                                timelineInterfacer);
 
                     } else {
                         //인증실패 오류팝업을 노출시킨다.
@@ -420,12 +447,17 @@ public class TimeLineFragment2 extends Fragment {
         });
     }
 
-    private void generateDataList(ArrayList<DiaryInfoResult> diaryInfo) {
-     
+    private void generateDataList(ArrayList<DiaryInfoResult> diaryInfo,
+                                  TimelineInterfacer timelineInterfacer) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                timeLineListAdapter2.addItems(diaryInfo);
+                if (page == 1) {
+                    timeLineListAdapter2 = new TimeLineListAdapter2(diaryInfo, timelineInterfacer, getActivity());
+                    recyclerView.setAdapter(timeLineListAdapter2);
+                } else {
+                    timeLineListAdapter2.addItems(diaryInfo);
+                }//end
             }
         });        
     }

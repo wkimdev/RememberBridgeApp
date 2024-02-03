@@ -156,8 +156,10 @@ public class LoginActivity extends AppCompatActivity {
         kakaoLoginBtn = findViewById(R.id.load_imgBtn_kakao);
         googleLoginBtn = findViewById(R.id.load_imgBtn_google);
         emailLoginBtn = findViewById(R.id.login_btn_emailLogin);
-        registerTxt = findViewById(R.id.login_txt_register);
-        fnqTxt = findViewById(R.id.login_txt_fnq);
+
+        /*일반회원가입과 문의하기 영역*/
+        /*registerTxt = findViewById(R.id.login_txt_register);
+        fnqTxt = findViewById(R.id.login_txt_fnq);*/
         login_txt_recent_login_g = findViewById(R.id.login_txt_recent_login_g);
         login_txt_recent_login_k = findViewById(R.id.login_txt_recent_login_k);
         login_txt_recent_login_n = findViewById(R.id.login_txt_recent_login_n);
@@ -334,14 +336,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        registerTxt.setOnClickListener(new View.OnClickListener() {
+/*        registerTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MemberRegisterActivity.class);
                 startActivity(intent);
                 finish();
             }
-        });
+        });*/
     }
 
     private void snsLoginKakao() {
@@ -405,7 +407,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(NidProfileResponse response) {
                 //@ todo- 아래 정보는 shared에 저장하고,db에 저장된 user_id를 가져오기 위해선 api를 호출해야 한다.
-                logError(TAG, response.getProfile().getEmail()); //wkimdev@gmail.com
+                //네이버 ID
+                logError(TAG, "ID: " + response.getProfile().getId()); //wkimdev@gmail.com
+                logError(TAG, "Email: " +response.getProfile().getEmail()); //wkimdev@gmail.com
+                //음.. 이메일을 넣지 말까???
                 logError(TAG, response.getProfile().getProfileImage()); //null
                 logError(TAG, response.getProfile().getName());//null
 

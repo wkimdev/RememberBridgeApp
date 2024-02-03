@@ -43,6 +43,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mypage_card_profile"
+        android:paddingBottom="300dp"
+        android:clipToPadding="false"
         tools:listitem="@layout/home_mydog_item"/>
 
 
@@ -52,15 +54,15 @@
         android:id="@+id/home_floatingBtn_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/icon_add"
-        android:layout_margin="16dp"
         android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        app:srcCompat="@drawable/icon_add" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/home_ll_submenu_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -126,38 +128,39 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/home_ll_submenu_ai"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/home_ll_submenu_ai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/home_floatingBtn_main"
+        app:layout_constraintEnd_toEndOf="@+id/home_floatingBtn_main">
+
+        <!-- AI Storyboard Sub FAB with Text -->
+        <TextView
+            android:id="@+id/home_txt_ai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:visibility="invisible"
-            android:layout_marginRight="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/home_floatingBtn_main"
-            app:layout_constraintEnd_toEndOf="@+id/home_floatingBtn_main">
+            android:background="@drawable/background_rectangle_img"
+            android:elevation="4dp"
+            android:padding="4dp"
+            android:text="AI스토리생성"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-            <!-- AI Storyboard Sub FAB with Text -->
-            <TextView
-                android:id="@+id/home_txt_ai"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_rectangle_img"
-                android:padding="4dp"
-                android:elevation="4dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="AI스토리생성" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/home_floatingBtn_ai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:src="@drawable/icon_ai_story"
+            app:fabSize="mini"
+            app:layout_constraintEnd_toStartOf="@+id/home_txt_ai" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/home_floatingBtn_ai"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fabSize="mini"
-                android:layout_marginLeft="4dp"
-                android:src="@drawable/icon_ai_story"
-                app:layout_constraintEnd_toStartOf="@+id/home_txt_ai" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
     <!--[END] 플로팅버튼 처리-->
 
     <!--로고이미지-->
