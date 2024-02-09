@@ -161,7 +161,7 @@ public class HomeFrag extends Fragment {
     // 추억공간 데이터를 가져오기 위한 회원정보 호출
     private void getUserInfo(String userEmail) {
         //@todo -delete!
-        //userEmail = "wkimdev2@gmail.com";
+        userEmail = "wkimdev@gmail.com";
 
         //enqueue에 파라미터로 넘긴 콜백에서는 통신이 성공/실패 했을때 수행할 동작을 재정의 한다
         service.getUserInfo(userEmail).enqueue(new Callback<ResponseWrapper>() {

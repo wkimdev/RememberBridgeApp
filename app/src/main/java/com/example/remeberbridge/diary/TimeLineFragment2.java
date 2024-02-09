@@ -98,16 +98,6 @@ public class TimeLineFragment2 extends Fragment {
     TimelineInterfacer timelineInterfacer;
 
 
-    //Override this function as below to set fragmentInterfacer
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        timelineInterfacer = (TimelineInterfacer) context;
-//    }
-
-    //막혔다!
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

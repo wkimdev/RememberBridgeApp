@@ -102,6 +102,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextView login_txt_recent_login_g;
     private TextView login_txt_recent_login_k;
     private TextView login_txt_recent_login_n;
+    //네이버 토큰 초기화
+    final String[] naverToken = {null};
 
 
     @Override
@@ -352,15 +354,39 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG, "kakao 로그인 실패", error);
 
             } else if (token != null) {
+                token.getIdToken();
                 //access token 발급 완료!
                 logError(TAG, "로그인 성공 " + token.getAccessToken());
                 //@todo - new api 호출
                 //유저정보를 호출받아, shared에 저장한다.
+                //????
+
+                //카카오 로그인 or 회원가입 처리
+                //이메일 이런 정보 어디서 가져와ㅏ????
+                token.getIdToken();
+
+
+
 
             }
             return null;
         });
     }
+
+
+//    private void getKakaoLoginInfo() {
+//        // 토큰 정보 보기
+//        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+//            if (error != null) {
+//                Log.e(TAG, "토큰 정보 보기 실패", error)
+//            }
+//            else if (tokenInfo != null) {
+//                Log.i(TAG, "토큰 정보 보기 성공" +
+//                        "\n회원번호: ${tokenInfo.id}" +
+//                        "\n만료시간: ${tokenInfo.expiresIn} 초")
+//            }
+//        }
+//    }
 
 
     //앱 실행 시 사용자가 앞서 로그인을 통해 발급 받은 토큰이 있는지 확인
@@ -371,14 +397,14 @@ public class LoginActivity extends AppCompatActivity {
                 if (error != null) {
                     if (error instanceof KakaoSdkError && ((KakaoSdkError) error).isInvalidTokenError()) {
                         // 로그인 필요
-                        snsLoginKakao();
+                        //snsLoginKakao();
+                        tokenInfo.getId(); //이메일이런 값들은 없네???
                     } else {
                         // 기타 에러
                         Log.e(TAG, "checkKakaoTokenExist: 오류가 발생했습니다. ");
                     }
                 } else {
                     // 토큰 유효성 체크 성공 (필요 시 토큰 갱신됨)
-                    // @todo - 메인화면으로 이동
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -386,44 +412,47 @@ public class LoginActivity extends AppCompatActivity {
                 return null;
             });
         } else {
-            // @todo 로그인 필요 - 토큰발급
+            //토큰이 없다면 로그인 Or 회원가입처리를 해야 한다.
             snsLoginKakao();
         }
     }
 
 
     /**
-     * 로그인
+     * 네이버 로그인 or 회원가입
      * authenticate() 메서드를 이용한 로그인
      */
     private void snsLoginNaver() {
-        final String[] naverToken = {null};
-
-
         //3)
         //access token을 얻는데 성공한 경우 로직 처리
         NidProfileCallback<NidProfileResponse> profileCallback = new NidProfileCallback<NidProfileResponse>() {
-
             @Override
             public void onSuccess(NidProfileResponse response) {
                 //@ todo- 아래 정보는 shared에 저장하고,db에 저장된 user_id를 가져오기 위해선 api를 호출해야 한다.
-                //네이버 ID
-                logError(TAG, "ID: " + response.getProfile().getId()); //wkimdev@gmail.com
-                logError(TAG, "Email: " +response.getProfile().getEmail()); //wkimdev@gmail.com
-                //음.. 이메일을 넣지 말까???
-                logError(TAG, response.getProfile().getProfileImage()); //null
-                logError(TAG, response.getProfile().getName());//null
+                logError(TAG, "ID: " + response.getProfile().getId());//네이버 고유 ID
+                logError(TAG, "Email: " +response.getProfile().getEmail());
+                logError(TAG, response.getProfile().getProfileImage());
+                logError(TAG, response.getProfile().getName());
 
+                String user_sns_id = response.getProfile().getId();
                 String user_email = response.getProfile().getEmail();
                 String user_name = response.getProfile().getName();
                 String user_prof_img = response.getProfile().getProfileImage();
                 String login_sns_type = "N";
 
-                //@todo - 회원가입처리 이후 user_id를 받아온다.
-                //그런데 받아올 필요가 있나? 이 부분은 내가 잘못이해한걸수도 있다.
                 RequestLoginData requestLoginData =
-                        new RequestLoginData(user_email, user_name, user_prof_img, login_sns_type);
+                        new RequestLoginData(user_email, user_name,
+                                user_prof_img, login_sns_type, user_sns_id);
                 requestJoinOrLogin(requestLoginData);
+
+
+                //회원가입 처리
+                //서버에 조회해서,
+                /*1) 최초회원가입 -> 해당 SNS 타입과 refresh 토큰이 둘다 없다 -> 회원가입처리
+                2) 로그인 -> 해당 SNS타입과 refresh 토큰이 있음 -
+                > 로그인처리, refresh token값이 변경되어을 경우 update 처리 (session 만료 처리를 이걸로 ..? ) 앱은 거의 로그인 되어 있지 않나.*/
+
+
 
             }
 
@@ -456,7 +485,6 @@ public class LoginActivity extends AppCompatActivity {
                 long currentTimeInSeconds = System.currentTimeMillis() / 1000;
                 Long tokenExpiredTime = NaverIdLoginSDK.INSTANCE.getExpiresAt();
 
-
                 /**
                 //2-1) Check if the token is expired or not
                 // 만료시간 - 현재시간 < 0 ==> 토큰이 유효하지 않음 */
@@ -471,11 +499,6 @@ public class LoginActivity extends AppCompatActivity {
                             // Token was refreshed successfully
                             naverToken[0] = NaverIdLoginSDK.INSTANCE.getAccessToken();
                             logError(TAG, "[네아로] Refreshed access token: " + naverToken[0]);
-
-                            //@todo - 이걸로 뭘해야 하나?? 어차피 백엔드로 보내지도 않는데?
-
-
-
                         }
 
                         @Override
@@ -640,19 +663,21 @@ public class LoginActivity extends AppCompatActivity {
             //토큰 만료 정보
             logError(TAG, "토큰 만료시간 >>>> " + account.isExpired());
 
+            String user_sns_id = account.getId();
+            logError(TAG, "구글 user_sns_id >>>> " + user_sns_id);
             String user_email = account.getEmail();
             String user_name = account.getDisplayName();
             String user_prof_img = account.getPhotoUrl().toString();
             String login_sns_type = "G";
 
-            //PreferenceManager.setInt(getApplicationContext(), "userId", userLoginInfoResult.getUserId());
             PreferenceManager.setString(getApplicationContext(), "user_email", user_email);
             PreferenceManager.setString(getApplicationContext(), "user_name", user_name);
             PreferenceManager.setString(getApplicationContext(), "user_prof_img", user_prof_img);
             PreferenceManager.setString(getApplicationContext(), "user_sns_type", login_sns_type);
 
             RequestLoginData requestLoginData =
-                    new RequestLoginData(user_email, user_name, user_prof_img, login_sns_type);
+                    new RequestLoginData(user_email, user_name,
+                            user_prof_img, login_sns_type, user_sns_id);
             requestJoinOrLogin(requestLoginData);
 
         } catch (ApiException e) {

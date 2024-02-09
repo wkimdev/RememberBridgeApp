@@ -18,9 +18,11 @@
         app:tabSelectedTextColor="@color/theme_orange"
         app:tabTextColor="@color/black" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/board_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:saveEnabled="false"
+        />
 
 </LinearLayout>

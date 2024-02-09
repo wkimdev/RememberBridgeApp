@@ -25,11 +25,16 @@ public class RequestLoginData {
     @SerializedName("login_sns_type")
     String loginSnsType;
 
-    public RequestLoginData(String userEmail, String userName, String userProfImg, String loginSnsType) {
+    @SerializedName("sns_id")
+    String snsId;
+
+
+    public RequestLoginData(String userEmail, String userName, String userProfImg, String loginSnsType, String snsId) {
         this.userEmail = userEmail;
         this.userName = userName;
         this.userProfImg = userProfImg;
         this.loginSnsType = loginSnsType;
+        this.snsId = snsId;
     }
 
     public String getLoginSnsType() {

@@ -81,5 +81,7 @@ dependencies {
 
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
+    //스와이프할 수 있는 형식으로 뷰 또는 프래그먼트를 표시
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 
 }
